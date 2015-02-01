@@ -20,10 +20,11 @@ namespace RicePkg.Controllers
         // GET api/values/5
         public string Get(int id)
         {
-            string result = StandardMatcher.editDistance("aunt", "ant") + "";
-            result += StandardMatcher.editDistance("Sam", "Samantha");
-            result += StandardMatcher.editDistance("flomax", "volmax");
-            return result;
+            //string result = StandardMatcher.editDistance("aunt", "ant") + "";
+            //result += StandardMatcher.editDistance("Sam", "Samantha");
+            //result += StandardMatcher.editDistance("flomax", "volmax");
+            //return result;
+            return "get";
         }
 
         // POST api/values
