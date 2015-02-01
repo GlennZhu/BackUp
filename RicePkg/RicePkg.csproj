@@ -207,7 +207,11 @@
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Util\EditDistance.cs" />
+    <Compile Include="Models\JsonDeserialize\OcrResponse.cs" />
+    <Compile Include="Models\ProcessStudents\StudentHandler.cs" />
+    <Compile Include="Models\ProcessStudents\Student.cs" />
+    <Compile Include="Models\ProcessStudents\StudentName.cs" />
+    <Compile Include="Models\Util\StandardMatcher.cs" />
     <Compile Include="Models\Util\Email.cs" />
     <Compile Include="Models\ErrorMessage\GeneralFailureMessage.cs" />
     <Compile Include="Models\ErrorMessage\NullInputeMessage.cs" />

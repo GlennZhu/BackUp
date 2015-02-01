@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RicePkg.Models.ProcessStudents;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,8 @@ namespace RicePkg
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
+        public static Dictionary<String, Dictionary<StudentName, List<Student>>> global_student_cache;
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -18,6 +21,8 @@ namespace RicePkg
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            global_student_cache = StudentHandler.initStudentCache();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,13 +13,22 @@ namespace RicePkg.Models.ProcessStudents
         {
             return firstname + "-" + lastname;
         }
-        public bool Equals(StudentName other)
+        public override bool Equals(object other)
         {
-            return other.firstname.Equals(this.firstname) && other.lastname.Equals(this.lastname);
+            if (other == null)
+            {
+                return false;
+            }
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+            StudentName casted = (StudentName)other;
+            return casted.firstname.Equals(this.firstname) && casted.lastname.Equals(this.lastname);
         }
         public override int GetHashCode()
         {
-            return this.firstname.GetHashCode() + this.lastname.GetHashCode();
+            return firstname.GetHashCode() ^ lastname.GetHashCode();
         }
     }
 }

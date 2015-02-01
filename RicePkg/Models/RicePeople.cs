@@ -4,13 +4,15 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using RicePkg.Models.JsonDeserialize;
+using RicePkg.Models.ProcessStudents;
+using System.Text.RegularExpressions;
 
 namespace RicePkg.Models
 {
     public class RicePeople
     {
         //public static List<RicePerson> get(string firstname, string lastname)
-        public static List<Result> get(string firstname, string lastname, string college)
+        public static List<Student> get(string firstname, string lastname, string college)
         {
             string json = new WebClient().DownloadString(String.Format("{0}firstname={1}&lastname={2}&college={3}", 
                 System.Configuration.ConfigurationManager.AppSettings["SearchRicePeopleUrlPrefix"],
@@ -18,12 +20,23 @@ namespace RicePkg.Models
                 lastname,
                 college));
             RootObject root = Newtonsoft.Json.JsonConvert.DeserializeObject<RootObject>(json);
-            List<Result> returnVal = root.results;
-            // If found
-            if (returnVal.Count > 0)
-                return returnVal;
-            else
-                return get(null, lastname, college);
+            List<Result> results = root.results;
+            List<Student> returnVal = new List<Student>();
+            foreach (Result result in results)
+            {
+                Student toAdd = new Student();
+                toAdd.email = result.email;
+                toAdd.netid = result.netid;
+
+                StudentName name = new StudentName();
+                String[] words = Regex.Split(result.name, ", ");
+                name.firstname = words[0];
+                name.lastname = words[words.Length - 1];
+
+                toAdd.full_name = name;
+                returnVal.Add(toAdd);
+            }
+            return returnVal;
         }
     }
 }
