@@ -23,7 +23,6 @@ namespace RicePkg.Controllers
                 System.Configuration.ConfigurationManager.AppSettings["OcrPrefix"],
                 imageUrl));
                 OcrResponse root = Newtonsoft.Json.JsonConvert.DeserializeObject<OcrResponse>(json);
-
                 // TODO Get rid of Fake College
                 String fake_college = "lovett";
                 if (root.success)
@@ -34,7 +33,7 @@ namespace RicePkg.Controllers
                 }
                 else { 
                     // TODO what if this happens.
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, new GeneralFailureMessage());
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError, new GeneralFailureMessage("Ocr API fail"));
                 }
 
 
@@ -48,7 +47,7 @@ namespace RicePkg.Controllers
             }
             catch (Exception e)
             {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, new GeneralFailureMessage());
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, new GeneralFailureMessage("Get RicePeopePhoto: " + e.Message));
             }
         }
 

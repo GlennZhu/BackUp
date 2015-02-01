@@ -13,5 +13,10 @@ namespace RicePkg.Models.ErrorMessage
         {
             detail = "Internal error";
         }
+
+        public GeneralFailureMessage(string message)
+        {
+            detail = message;
+        }
     }
 }
