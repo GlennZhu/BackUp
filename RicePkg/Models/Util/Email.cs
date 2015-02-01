@@ -9,12 +9,19 @@ namespace RicePkg.Models.Util
 {
     public class Email
     {
+
         public static bool sendMail(string recipient, string imageUrl)
         {
             bool result = true;
+            String hasImage = "Dear student,<br>Please come get your package.<br>See an image of your package <a href='" + imageUrl + "'>here</a>.<br>Your deligent coordinator";
+            String noImage = "Dear student,<br>Please come get your package.<br>Your deligent coordinator";
             try
             {
-                SendMailHelper("riceowlexpress@gmail.com", "HackRice2015!", "smtp.gmail.com", "OwlExpress", recipient, "You have a package", imageUrl);
+                String body = hasImage;
+                if (imageUrl == null || imageUrl.Length == 0) {
+                    body = noImage;
+                }
+                SendMailHelper("riceowlexpress@gmail.com", "HackRice2015!", "smtp.gmail.com", "OwlExpress", recipient, "You have a package", body);
             }
             catch (Exception e)
             {
@@ -38,6 +45,7 @@ namespace RicePkg.Models.Util
                     Timeout = 30000,
                 };
                 MailMessage message = new MailMessage(fromAddress, recipient, subject, body);
+                message.IsBodyHtml = true;
                 smtp.Send(message);
                 }
                 catch (Exception ex)

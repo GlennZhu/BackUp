@@ -14,6 +14,7 @@ namespace RicePkg.Controllers
         // GET api/<controller>/
         public HttpResponseMessage Get(string imageUrl, string email)
         {
+            email = email.Trim().ToLower();
             try
             {
                 if (imageUrl == null)

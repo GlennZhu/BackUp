@@ -27,10 +27,11 @@ namespace RicePkg.Controllers
                 String fake_college = "lovett";
                 if (root.success)
                 {
-                    string parsedContent = root.value.ToLower(); // TO FN LN 2132 ST HOUSTON TX 77005 USA
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, new GeneralFailureMessage(parsedContent));
+                    StandardMatcher smm = new StandardMatcher();
+                    string parsedContent = smm.denoise(root.value.ToLower()); // TO FN LN 2132 ST HOUSTON TX 77005 USA
+                    //return Request.CreateResponse(HttpStatusCode.InternalServerError, new GeneralFailureMessage(parsedContent));
 
-                    List<Student> results = (new StandardMatcher()).generateMatch(parsedContent, fake_college);
+                    List<Student> results = smm.generateMatch(parsedContent, fake_college);
                     return Request.CreateResponse(HttpStatusCode.OK, results);
                 }
                 else { 

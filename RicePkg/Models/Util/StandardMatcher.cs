@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace RicePkg.Models.Util
@@ -13,6 +14,28 @@ namespace RicePkg.Models.Util
 	
     	/* The maximum tolerance of edit distance for a word to be a match for a person */
 	    private static double ERROR_THRESHOLD = 0.3;
+
+        public String denoise(String noisedString) {
+	        // filter out non-letter and non space char char
+	        StringBuilder sb = new StringBuilder();
+	        foreach (char c in noisedString.ToCharArray()) {
+		        if (c == '\n') {
+			        sb.Append(' ');
+		        }
+		        else if (Char.IsLetter(c) || Char.IsWhiteSpace(c)) {
+			        sb.Append(c);
+		        }
+	        }
+		
+	        // trim spaces
+	        String output = sb.ToString();
+	        output = output.Trim();
+	        output = output.Replace("\\s+", " ");
+		
+	        // to lower case
+	        output = output.ToLower();
+	        return output;
+        }
 
         public List<Student> generateMatch(String identifier, String college) {
 		    List<Student> allStudent = queryByCollege(college);
@@ -28,12 +51,14 @@ namespace RicePkg.Models.Util
 					    if (!counter.Keys.Contains(person)) {
 						    counter.Add(person, 1);
 					    }else{
-						    counter.Add(person, counter[person] + 1);
+						    counter[person] = counter[person] + 1;
 					    }
 				    }
 				
 			    }
 		    }
+            //throw new Exception("have got here");
+
 		    // choose the best one
 		    int bestScore = 0;
 		    List<Student> bestPerson = new List<Student>();
@@ -58,7 +83,12 @@ namespace RicePkg.Models.Util
         {
             List<Student> output = new List<Student>();
             // TODO query cache
-
+            Dictionary<StudentName, List<Student>> college_map = WebApiApplication.global_student_cache[college];
+            foreach (KeyValuePair<StudentName, List<Student>> pair in college_map)
+            {
+                List<Student> l = pair.Value;
+                output.AddRange(l);
+            }
             return output;
         }
 

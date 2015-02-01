@@ -82,7 +82,7 @@ namespace RicePkg.Models.ProcessStudents
 
         public static List<Student> getStudentsFromCollege(String college)
         {  //TODO lovett college or lovett??? make sure!
-            college = college.ToLower();
+            college = college.Trim().ToLower();
             List<Student> items = new List<Student>();
             Dictionary<StudentName, List<Student>> college_map = WebApiApplication.global_student_cache[college];
             foreach (KeyValuePair<StudentName, List<Student>> pair in college_map)
@@ -95,8 +95,8 @@ namespace RicePkg.Models.ProcessStudents
 
         public static List<Student> getCandidates(string fn, string ln, string college)
         {
-            ln = ln.ToLower();
-            fn = ln.ToLower();
+            ln = ln.Trim().ToLower();
+            fn = ln.Trim().ToLower();
             college = college.ToLower();
             List<Student> items = new List<Student>();
             Dictionary<StudentName, List<Student>> college_map = WebApiApplication.global_student_cache[college];
